@@ -1,0 +1,11 @@
+netty:
+  zk:
+    hosts:
+      - multicast: 232.2.33.1
+        network: 172.20.160.158
+        sources: 172.20.160.158
+        ports: 9000
+      - multicast: 224.0.0.2
+        network: 172.20.160.158
+        sources: 172.20.160.158
+        ports: 9001,9002
