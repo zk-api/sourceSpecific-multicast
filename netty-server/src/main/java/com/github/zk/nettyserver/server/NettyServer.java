@@ -63,13 +63,13 @@ public class NettyServer {
                     String ports = host.get("ports");
                     String[] portArray = ports.split(",");
                     for (int j = 0; j < portArray.length; j++) {
-                        f.add(b.bind(Integer.parseInt(portArray[i])).sync());
+                        f.add(b.bind(Integer.parseInt(portArray[j])).sync());
                         InetAddress multicast = InetAddress.getByName(host.get("multicast"));
                         NetworkInterface network = NetworkInterface.getByInetAddress(InetAddress.getByName(host.get("network")));
                         String sources = host.get("sources");
                         String[] sourcesArray = sources.split(",");
                         for (String source : sourcesArray) {
-                            ((NioDatagramChannel) f.get(f.size() - 1).channel()).joinGroup(multicast, network, InetAddress.getByName(source));
+//                            ((NioDatagramChannel) f.get(f.size() - 1).channel()).joinGroup(multicast, network, InetAddress.getByName(source));
                         }
                     }
                 } catch (UnknownHostException | SocketException e) {
