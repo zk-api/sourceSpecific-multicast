@@ -8,6 +8,8 @@ import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * 消息处理 {@link io.netty.channel.ChannelInboundHandlerAdapter} 实现
  *
@@ -17,13 +19,19 @@ import org.slf4j.LoggerFactory;
 public class MessageChannelHandler extends ChannelInboundHandlerAdapter {
     private Logger logger = LoggerFactory.getLogger(MessageChannelHandler.class);
 
+    //服务启动后接收的数据量
+    public static AtomicLong allReceive = new AtomicLong(0);
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         DatagramPacket packet = (DatagramPacket) msg;
         ByteBuf content = packet.content();
         byte[] bytes = new byte[content.readableBytes()];
         content.readBytes(bytes);
-        logger.info("接收到消息：" + new String(bytes));
+        //接收量计数 +1
+        allReceive.incrementAndGet();
+
+//        logger.debug("接收到消息：" + new String(bytes));
 
         //清除直接缓冲区计数，防止内存泄漏
         ReferenceCountUtil.release(content);
