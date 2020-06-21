@@ -11,8 +11,6 @@ import io.netty.handler.codec.string.StringEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-
 /**
  * 客户端连接服务端（心跳）
  *
@@ -24,9 +22,9 @@ public class NettyClient {
 
     private String host;
     private int port;
-    public NettyClient(Map<String, String> clientConfig) {
-        this.host = clientConfig.get("host");
-        this.port = clientConfig.get("port") != null ? Integer.valueOf(clientConfig.get("port")) : null;
+    public NettyClient(String host, int port) {
+        this.host = host;
+        this.port = port;
     }
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
 
