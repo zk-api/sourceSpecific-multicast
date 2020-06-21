@@ -10,6 +10,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class NettyServerApplication {
 
+	//服务是否为Master
+	public static boolean isMaster = false;
+
 	public static void main(String[] args) {
 		SpringApplication.run(NettyServerApplication.class, args);
 	}
