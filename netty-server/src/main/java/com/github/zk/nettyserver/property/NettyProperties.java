@@ -17,6 +17,10 @@ import java.util.Map;
 public class NettyProperties {
     //监听的组播地址
     private List<Map<String, String>> hosts;
+    //发送心跳地址
+    private Map<String, String> sendHeartBeat;
+    //接收心跳地址
+    private Map<String, Integer> checkHeartBeat;
 
     public List<Map<String, String>> getHosts() {
         return hosts;
@@ -26,4 +30,19 @@ public class NettyProperties {
         this.hosts = hosts;
     }
 
+    public Map<String, String> getSendHeartBeat() {
+        return sendHeartBeat;
+    }
+
+    public void setSendHeartBeat(Map<String, String> sendHeartBeat) {
+        this.sendHeartBeat = sendHeartBeat;
+    }
+
+    public Map<String, Integer> getCheckHeartBeat() {
+        return checkHeartBeat;
+    }
+
+    public void setCheckHeartBeat(Map<String, Integer> checkHeartBeat) {
+        this.checkHeartBeat = checkHeartBeat;
+    }
 }

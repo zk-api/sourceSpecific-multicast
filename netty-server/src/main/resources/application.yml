@@ -13,6 +13,13 @@ netty:
         network: 172.20.160.158
         sources: 172.20.160.158
         ports: 9001,9002
+    # 发送心跳地址（备机心跳检测地址）
+    sendHeartBeat:
+      host: 127.0.0.1
+      port: 10001
+    # 心跳检测端口
+    checkHeartBeat:
+      port: 10000
 spring:
   task:
     scheduling:
