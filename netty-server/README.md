@@ -1,6 +1,69 @@
 # 使用说明
 ## 1. 功能介绍
-
+- 基于Netty对源特定组播数据接收，可以对组播源、网卡、源地址、端口互相组合接收。
+并且采用端口复用，可以监听多个相同端口。
+- 支持接收数据量统计：分为每秒接收量和从启动开始接收的数据总量两个维度.
+浏览器访问：`localhost:8080/log/logLevel?logLevel=DEBUG`,即可在后台日志种查看到统计值
 ## 2. 单点配置
-
+```yaml
+netty:
+  zk:
+    #数据接收配置
+    hosts:
+        #组播地址
+      - multicast: 232.2.33.1
+        #网卡地址
+        network: 172.20.160.158
+        #源地址
+        sources: 172.20.160.158
+        #监听端口
+        ports: 9000
+      - multicast: 224.0.0.2
+        network: 172.20.160.158
+        sources: 172.20.160.158
+        ports: 9001,9002
+      - multicast: 224.0.0.2
+        network: 172.20.160.158
+        sources: 172.20.160.158
+        ports: 9001,9002
+spring:
+  task:
+    scheduling:
+      pool:
+        size: 2
+```
+多个组播地址用“，”隔开，多个源地址用“，”隔开，多个端口用“，”隔开。
 ## 3. 主备配置
+```yaml
+netty:
+  zk:
+    hosts:
+      - multicast: 232.2.33.1
+        network: 172.20.160.158
+        sources: 172.20.160.158
+        ports: 9000
+      - multicast: 224.0.0.2
+        network: 172.20.160.158
+        sources: 172.20.160.158
+        ports: 9001,9002
+      - multicast: 224.0.0.2
+        network: 172.20.160.158
+        sources: 172.20.160.158
+        ports: 9001,9002
+    # 发送心跳地址（备机心跳检测地址）
+    sendHeartBeat:
+      host: 127.0.0.1
+      port: 10001
+    # 心跳检测端口
+    checkHeartBeat:
+      port: 10000
+# 定时统计接收量相关配置
+spring:
+  task:
+    scheduling:
+      pool:
+        size: 2
+```
+- netty.zk.sendHeartBeat.host： 备机IP
+- netty.zk.sendHeartBeat.port： 备机心跳检测端口
+- netty.zk.checkHeartBeat.port：心跳检测端口
