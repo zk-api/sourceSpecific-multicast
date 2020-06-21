@@ -38,7 +38,7 @@ public class StartListener implements ServletContextListener {
     private HeartBeatServer heartBeatServer;
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ExecutorService executorService = new ThreadPoolExecutor(2, 2,
+        ExecutorService executorService = new ThreadPoolExecutor(3, 3,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>(), new DefaultThreadFactory("zk"));
         //单点接收
