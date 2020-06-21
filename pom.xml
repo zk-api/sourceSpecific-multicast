@@ -28,7 +28,6 @@
   <modules>
     <module>netty-server</module>
     <module>netty-client</module>
-    <module>netty-server-backup</module>
   </modules>
 
   <dependencies>

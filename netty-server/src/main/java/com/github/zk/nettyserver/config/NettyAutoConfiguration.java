@@ -28,13 +28,21 @@ public class NettyAutoConfiguration {
     @Bean
     public NettyClient client(NettyProperties properties) {
         Map<String, String> sendHeartBeat = properties.getSendHeartBeat();
-        return new NettyClient(sendHeartBeat);
+        if (sendHeartBeat != null) {
+            String host = sendHeartBeat.get("host");
+            int port = sendHeartBeat.get("port") != null ? Integer.parseInt(sendHeartBeat.get("port")) : 0;
+            return new NettyClient(host, port);
+        }
+        return null;
     }
 
     @Bean
     public HeartBeatServer heartBeat(NettyProperties properties) {
         Map<String, Integer> checkHeartBeat = properties.getCheckHeartBeat();
-        int port = checkHeartBeat.get("port");
-        return new HeartBeatServer(server(properties), client(properties), port);
+        if (checkHeartBeat != null) {
+            int port = checkHeartBeat.get("port");
+            return new HeartBeatServer(server(properties), client(properties), port);
+        }
+        return null;
     }
 }

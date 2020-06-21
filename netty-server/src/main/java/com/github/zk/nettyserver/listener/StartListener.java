@@ -32,15 +32,21 @@ public class StartListener implements ServletContextListener {
 
     @Autowired
     private NettyServer nettyServer;
-    @Autowired
+    @Autowired(required = false)
     private NettyClient nettyClient;
-    @Autowired
+    @Autowired(required = false)
     private HeartBeatServer heartBeatServer;
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ExecutorService executorService = new ThreadPoolExecutor(2, 2,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>(), new DefaultThreadFactory("zk"));
+        //单点接收
+        if (nettyClient == null) {
+            //启动接收
+            executorService.execute(nettyServer::startNettyServer);
+            return;
+        }
         Socket socket = new Socket();
         try {
             socket.connect(new InetSocketAddress(nettyClient.getHost(), nettyClient.getPort()), 1000);
