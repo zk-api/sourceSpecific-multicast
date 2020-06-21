@@ -33,6 +33,7 @@ public class NettyServer {
     }
 
     public void startNettyServer() {
+        logger.info("启动数据接收......");
         try {
             //UDP不能使用ServerBootStrap
             Bootstrap b = new Bootstrap();
@@ -48,7 +49,7 @@ public class NettyServer {
                     .option(ChannelOption.SO_SNDBUF, 1024 * 1024)
                     .handler(new ChannelInitializer<NioDatagramChannel>() {
                         @Override
-                        protected void initChannel(NioDatagramChannel channel) throws Exception {
+                        protected void initChannel(NioDatagramChannel channel) {
                             ChannelPipeline pipeline = channel.pipeline();
                             //添加处理器
                             pipeline.addLast(new MessageChannelHandler());
@@ -69,14 +70,14 @@ public class NettyServer {
                         String sources = host.get("sources");
                         String[] sourcesArray = sources.split(",");
                         for (String source : sourcesArray) {
-//                            ((NioDatagramChannel) f.get(f.size() - 1).channel()).joinGroup(multicast, network, InetAddress.getByName(source));
+                            ((NioDatagramChannel) f.get(f.size() - 1).channel()).joinGroup(multicast, network, InetAddress.getByName(source));
                         }
                     }
                 } catch (UnknownHostException | SocketException e) {
                     e.printStackTrace();
                 }
             }
-            logger.info("服务端已启动");
+            logger.info("服务端已启动完成");
             hosts.forEach(host -> {
                 logger.info("监听组播地址【{}】,源地址【{}】,端口【{}】", host.get("multicast"), host.get("sources"), host.get("ports"));
             });

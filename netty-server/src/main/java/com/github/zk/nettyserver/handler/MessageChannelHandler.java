@@ -8,6 +8,7 @@ import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -30,6 +31,8 @@ public class MessageChannelHandler extends ChannelInboundHandlerAdapter {
         content.readBytes(bytes);
         //接收量计数 +1
         allReceive.incrementAndGet();
+
+        ctx.writeAndFlush(new DatagramPacket(content, new InetSocketAddress("224.0.1.1", 9000)));
 
 //        logger.debug("接收到消息：" + new String(bytes));
 
