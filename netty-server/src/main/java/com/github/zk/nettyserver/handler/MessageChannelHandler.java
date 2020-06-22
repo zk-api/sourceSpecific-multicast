@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -19,6 +20,12 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class MessageChannelHandler extends ChannelInboundHandlerAdapter {
     private Logger logger = LoggerFactory.getLogger(MessageChannelHandler.class);
+
+    private Map<String, String> forward;
+
+    public MessageChannelHandler(Map<String, String> forward) {
+        this.forward = forward;
+    }
 
     //服务启动后接收的数据量
     public static AtomicLong allReceive = new AtomicLong(0);
@@ -32,7 +39,10 @@ public class MessageChannelHandler extends ChannelInboundHandlerAdapter {
         //接收量计数 +1
         allReceive.incrementAndGet();
 
-        ctx.writeAndFlush(new DatagramPacket(content, new InetSocketAddress("224.0.1.1", 9000)));
+        if (forward != null) {
+            ctx.writeAndFlush(new DatagramPacket(content,
+                    new InetSocketAddress(forward.get("host"), Integer.parseInt(forward.get("port")))));
+        }
 
 //        logger.debug("接收到消息：" + new String(bytes));
 

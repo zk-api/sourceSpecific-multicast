@@ -21,6 +21,8 @@ public class NettyProperties {
     private Map<String, String> sendHeartBeat;
     //接收心跳地址
     private Map<String, Integer> checkHeartBeat;
+    //转发地址
+    private Map<String, String> forward;
 
     public List<Map<String, String>> getHosts() {
         return hosts;
@@ -44,5 +46,13 @@ public class NettyProperties {
 
     public void setCheckHeartBeat(Map<String, Integer> checkHeartBeat) {
         this.checkHeartBeat = checkHeartBeat;
+    }
+
+    public Map<String, String> getForward() {
+        return forward;
+    }
+
+    public void setForward(Map<String, String> forward) {
+        this.forward = forward;
     }
 }

@@ -20,6 +20,10 @@ netty:
     # 心跳检测端口
     checkHeartBeat:
       port: 10000
+    # 转发地址
+    forward:
+      host: 224.0.0.1
+      port: 9000
 spring:
   task:
     scheduling:
