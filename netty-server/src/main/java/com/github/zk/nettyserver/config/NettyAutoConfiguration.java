@@ -22,7 +22,8 @@ public class NettyAutoConfiguration {
     @Bean
     public NettyServer server(NettyProperties properties) {
         List<Map<String, String>> hosts = properties.getHosts();
-        return new NettyServer(hosts);
+        Map<String, String> forward = properties.getForward();
+        return new NettyServer(hosts, forward);
     }
 
     @Bean
