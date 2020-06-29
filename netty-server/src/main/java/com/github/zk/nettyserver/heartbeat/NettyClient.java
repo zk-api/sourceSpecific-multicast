@@ -11,6 +11,8 @@ import io.netty.handler.codec.string.StringEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 客户端连接服务端（心跳）
  *
@@ -51,6 +53,11 @@ public class NettyClient {
             } catch (Exception e) {
                 logger.info("尝试寻找backup。。。");
                 System.out.println(e.getMessage());
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
