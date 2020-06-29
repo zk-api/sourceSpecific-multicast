@@ -27,9 +27,11 @@ public class NettyServer {
 
     private EventLoopGroup group = new NioEventLoopGroup();
     private List<Map<String, String>> hosts;
+    private Map<String, String> forward;
 
-    public NettyServer(List<Map<String, String>> hosts) {
+    public NettyServer(List<Map<String, String>> hosts, Map<String, String> forward) {
         this.hosts = hosts;
+        this.forward = forward;
     }
 
     public void startNettyServer() {
@@ -52,7 +54,7 @@ public class NettyServer {
                         protected void initChannel(NioDatagramChannel channel) {
                             ChannelPipeline pipeline = channel.pipeline();
                             //添加处理器
-                            pipeline.addLast(new MessageChannelHandler());
+                            pipeline.addLast(new MessageChannelHandler(forward));
                         }
                     });
             //监听端口
@@ -68,6 +70,10 @@ public class NettyServer {
                         InetAddress multicast = InetAddress.getByName(host.get("multicast"));
                         NetworkInterface network = NetworkInterface.getByInetAddress(InetAddress.getByName(host.get("network")));
                         String sources = host.get("sources");
+                        if (sources == null) {
+                            ((NioDatagramChannel) f.get(f.size() - 1).channel()).joinGroup(multicast, network, null);
+                            continue;
+                        }
                         String[] sourcesArray = sources.split(",");
                         for (String source : sourcesArray) {
                             ((NioDatagramChannel) f.get(f.size() - 1).channel()).joinGroup(multicast, network, InetAddress.getByName(source));

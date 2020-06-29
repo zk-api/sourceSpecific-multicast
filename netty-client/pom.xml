@@ -10,7 +10,7 @@
 	<artifactId>netty-client</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>netty-client</name>
-	<description>Demo project for Spring Boot</description>
+	<description>模拟组播发送程序</description>
 
 	<properties>
 		<java.version>1.8</java.version>

@@ -1,9 +1,13 @@
+# 更新说明
+1. 优化转发方式
+2. 调整寻找备机时间间隔，兼容Linux系统
 # 使用说明
 ## 1. 功能介绍
 - 基于Netty对源特定组播数据接收，可以对组播源、网卡、源地址、端口互相组合接收。
 并且采用端口复用，可以监听多个相同端口。
 - 支持接收数据量统计：分为每秒接收量和从启动开始接收的数据总量两个维度.
 浏览器访问：`localhost:8080/log/logLevel?logLevel=DEBUG`,即可在后台日志种查看到统计值
+- 将接收到的源特定组播数据转发为普通组播或点对点单播
 ## 2. 单点配置
 ```yaml
 netty:
@@ -67,3 +71,13 @@ spring:
 - netty.zk.sendHeartBeat.host： 备机IP
 - netty.zk.sendHeartBeat.port： 备机心跳检测端口
 - netty.zk.checkHeartBeat.port：心跳检测端口
+## 4. 转发配置
+只需要配置好转发IP和端口即可进行转发
+```yaml
+netty:
+    zk:
+      # 转发地址
+      forward:
+        host: 224.0.0.1
+        port: 9000
+```
