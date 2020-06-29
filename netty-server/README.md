@@ -81,3 +81,18 @@ netty:
         host: 224.0.0.1
         port: 9000
 ```
+## 5. 程序启动
+引导类：`NettyServerApplication` ，使用Spring Boot方式启动。
+## 6. 打包
+```shell script
+mvn clean package -Dmaven.test.skip=true
+```
+## 7. 动态调整日志级别
+如果想查看日志，程序启动后，浏览器访问
+```http request
+localhost:8080/log/logLevel?logLevel=DEBUG
+```
+> 注意ip和port使用自己配置的
+
+访问后可看到控制台输出心跳检测、统计接收量等日志
+> 服务重启需要重新访问链接
