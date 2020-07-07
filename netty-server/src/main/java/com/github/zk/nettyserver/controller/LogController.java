@@ -1,5 +1,6 @@
 package com.github.zk.nettyserver.controller;
 
+import com.github.zk.nettyserver.enums.LogEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.logging.LogLevel;
@@ -20,9 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogController {
     private Logger logger = LoggerFactory.getLogger(LogController.class.getName());
     @RequestMapping("/logLevel")
-    public void logLevel(@RequestParam String logLevel) {
+    public void logLevel(@RequestParam(required = false) String loggerName, @RequestParam String logLevel) {
         LoggingSystem loggingSystem = LogbackLoggingSystem.get(null);
-        loggingSystem.setLogLevel("ROOT", LogLevel.valueOf(logLevel));
+        String className = "";
+        if (!"".equals(loggerName) && loggerName != null) {
+           className = LogEnum.valueOf(loggerName).getClassName();
+        }
+        loggingSystem.setLogLevel(className, LogLevel.valueOf(logLevel));
     }
     @RequestMapping("/logTest")
     public void logTest() {
