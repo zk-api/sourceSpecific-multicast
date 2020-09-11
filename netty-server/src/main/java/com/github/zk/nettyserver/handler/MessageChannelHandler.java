@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.DatagramPacket;
+import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,8 @@ public class MessageChannelHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         DatagramPacket packet = (DatagramPacket) msg;
         ByteBuf content = packet.content();
+        String s = content.toString(CharsetUtil.UTF_8);
+        logger.debug("接收到的数据：" + s);
         //接收量计数 +1
         allReceive.incrementAndGet();
 
